@@ -1,0 +1,120 @@
+{
+    "name": "Presidio",
+    "version": "1.0.0",
+    "description": "Presidio - Where Renting Meets Simplicity. A platform for property owners and tenants.",
+    "main": "backend/server.js",
+    "scripts": {
+      "start": "node backend/server.js",
+      "frontend": "cd frontend && npm start",
+      "backend": "cd backend && npm start",
+      "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/your-repo/rentify.git"
+    },
+    "keywords": ["rentify", "rentals", "property", "real estate", "tenants", "landlords"],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+      "backend": {
+        "express": "^4.17.1",
+        "mongoose": "^5.10.0",
+        "cors": "^2.8.5",
+        "bcryptjs": "^2.4.3",
+        "jsonwebtoken": "^8.5.1",
+        "dotenv": "^8.2.0",
+        "nodemailer": "^6.4.6",
+        "@sendgrid/mail": "^7.4.2"
+      },
+      "frontend": {
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "react-router-dom": "^5.2.0",
+        "axios": "^0.21.0"
+      },
+      "devDependencies": {
+        "concurrently": "^5.3.0"
+      }
+    },
+    "config": {
+      "MONGODB_URI": "your_mongodb_uri",
+      "JWT_SECRET": "your_jwt_secret",
+      "SENDGRID_API_KEY": "your_sendgrid_api_key",
+      "EMAIL_FROM": "no-reply@rentify.com",
+      "PORT": 5000
+    },
+    "backend": {
+      "routes": {
+        "authRoutes": {
+          "path": "/api/auth",
+          "methods": ["post"]
+        },
+        "propertyRoutes": {
+          "path": "/api/properties",
+          "methods": ["get", "post", "put", "delete"]
+        }
+      },
+      "models": {
+        "User": {
+          "fields": {
+            "firstName": "String",
+            "lastName": "String",
+            "email": "String",
+            "phone": "String",
+            "password": "String",
+            "isSeller": "Boolean"
+          }
+        },
+        "Property": {
+          "fields": {
+            "user": "ObjectId",
+            "place": "String",
+            "area": "Number",
+            "bedrooms": "Number",
+            "bathrooms": "Number",
+            "nearby": "String",
+            "likes": "Number"
+          }
+        }
+      }
+    },
+    "frontend": {
+      "context": {
+        "AuthContext": {
+          "methods": ["login", "register", "logout"],
+          "state": ["user"]
+        }
+      },
+      "components": {
+        "Auth": {
+          "Login": {
+            "fields": ["email", "password"]
+          },
+          "Register": {
+            "fields": ["firstName", "lastName", "email", "phone", "password", "isSeller"]
+          }
+        },
+        "Property": {
+          "PropertyForm": {
+            "fields": ["place", "area", "bedrooms", "bathrooms", "nearby"]
+          },
+          "PropertyList": {}
+        }
+      }
+    },
+    "deployment": {
+      "heroku": {
+        "steps": [
+          "Install the Heroku CLI and log in: npm install -g heroku && heroku login",
+          "Create a new Heroku app: heroku create rentify-app",
+          "Add MongoDB to your app using a service like mLab or MongoDB Atlas",
+          "Configure environment variables on Heroku: heroku config:set MONGODB_URI=\"your_mongodb_uri\" JWT_SECRET=\"your_jwt_secret\" SENDGRID_API_KEY=\"your_sendgrid_api_key\" EMAIL_FROM=\"no-reply@rentify.com\"",
+          "Push your code to Heroku: git add . && git commit -m \"Deploy Rentify app\" && git push heroku master",
+          "Set up the frontend buildpack: heroku buildpacks:set mars/create-react-app"
+        ]
+      }
+    },
+    "readme": "readme.md"
+  }
+  
